@@ -13,35 +13,93 @@
 <body>
     <div id="app">
         <div class="d-flex flex-wrap gap-3">
-            <div v-for="playground in playgrounds"  class="card d-inline-block" style="width: 18rem;">
+            <div v-for="wine in wines"  class="card d-inline-block" style="width: 18rem;">
                 <div class="card-body">
-                    <h4 class="card-title mb-2">playground ID: {{ playground.id }}</h4>
-                    <p class="card-text"><strong>Name of playground:</strong> {{ playground.name }}</p>
-                    <p class="card-text"><strong>Max amount of children allowed:</strong> {{ playground.maxChildren }}</p>
-                    <p class="card-text"><strong>Min age:</strong> {{ playground.minAge }}</p>
+                    <h4 class="card-title mb-2">wine ID: {{ wine.id }}</h4>
+                    <p class="card-text"><strong>manufactor of wines:</strong> {{ wine.manufacturer }}</p>
+                    <p class="card-text"><strong>year of wine:</strong> {{ wine.year }}</p>
+                    <p class="card-text"><strong>price:</strong> {{ wine.price }}</p>
+                    <p class="card-text"><strong>rating:</strong> {{ wine.rating }}</p>
+
                 </div>
             </div>
         </div>
 
         <div class="card p-3 mb-4">
             <div class="input-gruop mb-3">
-                <input v-model="newName" type="text" id="" class="form-control" placeholder="Enter Name of playground: ">
-                <input v-model="newMaxChildren" type="number" id="" class="form-control" placeholder="Enter max amount of children: ">
-                <input v-model="newMinAge" type="number" id="" class="form-control" placeholder="Enter new min age: ">
-                <button v-on:click="AddPlayground" class="btn btn-success">Add playground</button>
+                <input v-model="newManufactor" type="text" id="" class="form-control" placeholder="Enter manufactor of Wines: ">
+                <input v-model="newYear" type="number" id="" class="form-control" placeholder="Enter year: ">
+                <input v-model="newPrice" type="number" id="" class="form-control" placeholder="Enter price: ">
+                <input v-model="newRating" type="number" id="" class="form-control" placeholder="Enter rating: ">
+                <button v-on:click="AddWine" class="btn btn-success">Add wine</button>
+                <div v-if="errormsg" class="alert alert-danger" role="alert">
+                    {{ errormsg }}
+                </div>
 
                 
             </div>
         </div>
+
+        <div id="blackcl" class="card p-3 mb-4">
+            <div class="input-group mb-3">
+                <input v-model.number="IdDelete" type="number" class="form-control" placeholder="ID">
+                <button v-on:click="deleteWine" class="btn btn-success">Id for Deletion</button>
+                <div v-if="errormsgDelete" class="alert alert-danger" role="alert">
+                    {{ errormsgDelete }}
+                </div>
+            </div>
+        </div>
+
         <div class="card p-3 mb-4">
             <div class="input-gruop mb-3">
-                <input v-model="idtoupdate" type="number" id="" class="form-control" placeholder="Enter id for playground ">
-                <input v-model="updatename" type="text" id="" class="form-control" placeholder="Enter Name of playground: ">
-                <input v-model="updateMaxChildren" type="number" id="" class="form-control" placeholder="Enter max amount of children: ">
-                <input v-model="updateMinAge" type="number" id="" class="form-control" placeholder="Enter new min age: ">
-                <button v-on:click="UpdatePlayground" class="btn btn-success">update playground</button>
+                <input v-model="idtoupdate" type="number" id="" class="form-control" placeholder="Enter id for wine ">
+                <input v-model="updateManufactor" type="text" id="" class="form-control" placeholder="Enter Name of Manufactor: ">
+                <input v-model="updateYear" type="number" id="" class="form-control" placeholder="Enter Year: ">
+                <input v-model="updatePrice" type="number" id="" class="form-control" placeholder="Enter new Price: ">
+                <input v-model="updateRating" type="number" id="" class="form-control" placeholder="Enter new Rating: ">
+                <button v-on:click="UpdateWine" class="btn btn-success">update Wine</button>
+                <div v-if="errormsgUpdateWine" class="alert alert-danger" role="alert">
+                    {{ errormsgUpdateWine }}
+                </div>
 
                 
+            </div>
+        </div>
+
+        <div class="card">
+            <input v-model.number="getId" type="number" class="form-control" placeholder="Inter the ID only!"/>
+            <button v-on:click="GetById" class="btn btn-success">Get Wine</button>
+            <div v-if="errormsgGetId">
+                <p style="color: red;"> {{errormsgGetId}}</p>
+            </div>
+        </div>
+
+        <div v-if="wine">
+            <div class="card" style="color: black; background-color: white;">
+                <h3>wine Details</h3>
+                <p class="card-text"><strong>Id:</strong> {{ wine.id }}</p>
+                <p class="card-text"><strong>manufactor of wines:</strong> {{ wine.manufacturer }}</p>
+                    <p class="card-text"><strong>year of wine:</strong> {{ wine.year }}</p>
+                    <p class="card-text"><strong>price:</strong> {{ wine.price }}</p>
+                    <p class="card-text"><strong>rating:</strong> {{ wine.rating }}</p>
+            </div>
+        </div>
+
+        <div>
+            <input v-model="ratingR" type="number" id="" class="form-control" placeholder="sort after rating ">
+            <button class="btn btn-success" v-on:click="Sort">sorter</button>
+        </div>
+
+        
+        <div v-if="sortedwines" class="d-flex flex-wrap gap-3">
+            <div v-for="wine in sortedwines" class="card d-inline-block" style="width: 18rem;">
+                <div id="blackcl" class="card-body">
+                    <p class="card-text"><strong>Id:</strong> {{ wine.id }}</p>
+                    <p class="card-text"><strong>manufactor of wines:</strong> {{ wine.manufacturer }}</p>
+                    <p class="card-text"><strong>year of wine:</strong> {{ wine.year }}</p>
+                    <p class="card-text"><strong>price:</strong> {{ wine.price }}</p>
+                    <p class="card-text"><strong>rating:</strong> {{ wine.rating }}</p>
+                </div>
             </div>
         </div>
 
