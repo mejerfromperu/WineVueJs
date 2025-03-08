@@ -1,122 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Vue Template</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Import Styles -->
-    <link rel="stylesheet" href="Style.css" />
-    <!-- Import Vue.js -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine Cellar Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div id="app">
-        <div class="d-flex flex-wrap gap-3">
-            <div v-for="wine in wines"  class="card d-inline-block" style="width: 18rem;">
-                <div class="card-body">
-                    <h4 class="card-title mb-2">wine ID: {{ wine.id }}</h4>
-                    <p class="card-text"><strong>manufactor of wines:</strong> {{ wine.manufacturer }}</p>
-                    <p class="card-text"><strong>year of wine:</strong> {{ wine.year }}</p>
-                    <p class="card-text"><strong>price:</strong> {{ wine.price }}</p>
-                    <p class="card-text"><strong>rating:</strong> {{ wine.rating }}</p>
+<body class="bg-gradient-to-br from-rose-50 to-purple-50 min-h-screen font-['Lora']">
+    <div id="app" class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-8 text-center">
+            <h1 class="text-4xl font-['Cinzel'] text-rose-900 mb-2">Wine Cellar Collection</h1>
+            <p class="text-rose-700">Discover our exquisite wine selection</p>
+        </header>
 
+        <!-- Wine List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div v-for="wine in wines" class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border-t-4 border-rose-200">
+                <h4 class="text-xl font-['Cinzel'] text-rose-800 mb-3">Wine #{{ wine.id }}</h4>
+                <div class="space-y-2 text-rose-700">
+                    <p><strong>Manufacturer:</strong> {{ wine.manufacturer }}</p>
+                    <p><strong>Vintage:</strong> {{ wine.year }}</p>
+                    <p><strong>Price:</strong> ${{ wine.price }}</p>
+                    <p><strong>Rating:</strong> {{ wine.rating }}/5</p>
                 </div>
             </div>
         </div>
 
-        <div class="card p-3 mb-4">
-            <div class="input-gruop mb-3">
-                <input v-model="newManufactor" type="text" id="" class="form-control" placeholder="Enter manufactor of Wines: ">
-                <input v-model="newYear" type="number" id="" class="form-control" placeholder="Enter year: ">
-                <input v-model="newPrice" type="number" id="" class="form-control" placeholder="Enter price: ">
-                <input v-model="newRating" type="number" id="" class="form-control" placeholder="Enter rating: ">
-                <button v-on:click="AddWine" class="btn btn-success">Add wine</button>
-                <div v-if="errormsg" class="alert alert-danger" role="alert">
-                    {{ errormsg }}
-                </div>
-
-                
+        <!-- Add Wine Form -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-4">Add New Wine</h3>
+            <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <input v-model="newManufacturer" type="text" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Manufacturer">
+                <input v-model="newYear" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Year">
+                <input v-model="newPrice" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Price">
+                <input v-model="newRating" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Rating (1-5)">
             </div>
+            <button v-on:click="AddWine" class="mt-4 bg-rose-600 text-white px-6 py-2 rounded hover:bg-rose-700 transition-colors">Add Wine</button>
+            <div v-if="errormsg" class="mt-3 text-red-600 bg-red-50 p-3 rounded">{{ errormsg }}</div>
         </div>
 
-        <div id="blackcl" class="card p-3 mb-4">
-            <div class="input-group mb-3">
-                <input v-model.number="IdDelete" type="number" class="form-control" placeholder="ID">
-                <button v-on:click="deleteWine" class="btn btn-success">Id for Deletion</button>
-                <div v-if="errormsgDelete" class="alert alert-danger" role="alert">
-                    {{ errormsgDelete }}
-                </div>
+        <!-- Delete Wine -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-4">Remove Wine</h3>
+            <div class="flex gap-4">
+                <input v-model.number="IdDelete" type="number" class="border-rose-200 border rounded px-3 py-2 flex-grow focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Wine ID">
+                <button v-on:click="deleteWine" class="bg-rose-600 text-white px-6 py-2 rounded hover:bg-rose-700 transition-colors">Delete</button>
             </div>
+            <div v-if="errormsgDelete" class="mt-3 text-red-600 bg-red-50 p-3 rounded">{{ errormsgDelete }}</div>
         </div>
 
-        <div class="card p-3 mb-4">
-            <div class="input-gruop mb-3">
-                <input v-model="idtoupdate" type="number" id="" class="form-control" placeholder="Enter id for wine ">
-                <input v-model="updateManufactor" type="text" id="" class="form-control" placeholder="Enter Name of Manufactor: ">
-                <input v-model="updateYear" type="number" id="" class="form-control" placeholder="Enter Year: ">
-                <input v-model="updatePrice" type="number" id="" class="form-control" placeholder="Enter new Price: ">
-                <input v-model="updateRating" type="number" id="" class="form-control" placeholder="Enter new Rating: ">
-                <button v-on:click="UpdateWine" class="btn btn-success">update Wine</button>
-                <div v-if="errormsgUpdateWine" class="alert alert-danger" role="alert">
-                    {{ errormsgUpdateWine }}
-                </div>
-
-                
+        <!-- Update Wine -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-4">Update Wine</h3>
+            <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+                <input v-model="idtoupdate" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Wine ID">
+                <input v-model="updateManufacturer" type="text" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Manufacturer">
+                <input v-model="updateYear" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Year">
+                <input v-model="updatePrice" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Price">
+                <input v-model="updateRating" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Rating">
             </div>
+            <button v-on:click="UpdateWine" class="mt-4 bg-rose-600 text-white px-6 py-2 rounded hover:bg-rose-700 transition-colors">Update Wine</button>
+            <div v-if="errormsgUpdateWine" class="mt-3 text-red-600 bg-red-50 p-3 rounded">{{ errormsgUpdateWine }}</div>
         </div>
 
-        <div class="card">
-            <input v-model.number="getId" type="number" class="form-control" placeholder="Inter the ID only!"/>
-            <button v-on:click="GetById" class="btn btn-success">Get Wine</button>
-            <div v-if="errormsgGetId">
-                <p style="color: red;"> {{errormsgGetId}}</p>
+        <!-- Get Wine by ID -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-4">Find Wine</h3>
+            <div class="flex gap-4">
+                <input v-model.number="getId" type="number" class="border-rose-200 border rounded px-3 py-2 flex-grow focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Enter Wine ID">
+                <button v-on:click="GetById" class="bg-rose-600 text-white px-6 py-2 rounded hover:bg-rose-700 transition-colors">Search</button>
             </div>
-        </div>
-
-        <div v-if="wine">
-            <div class="card" style="color: black; background-color: white;">
-                <h3>wine Details</h3>
-                <p class="card-text"><strong>Id:</strong> {{ wine.id }}</p>
-                <p class="card-text"><strong>manufactor of wines:</strong> {{ wine.manufacturer }}</p>
-                    <p class="card-text"><strong>year of wine:</strong> {{ wine.year }}</p>
-                    <p class="card-text"><strong>price:</strong> {{ wine.price }}</p>
-                    <p class="card-text"><strong>rating:</strong> {{ wine.rating }}</p>
-            </div>
-        </div>
-
-        <div>
-            <input v-model="ratingR" type="number" id="" class="form-control" placeholder="sort after rating ">
-            <button class="btn btn-success" v-on:click="Sort">sorter</button>
-        </div>
-
-        
-        <div v-if="sortedwines" class="d-flex flex-wrap gap-3">
-            <div v-for="wine in sortedwines" class="card d-inline-block" style="width: 18rem;">
-                <div id="blackcl" class="card-body">
-                    <p class="card-text"><strong>Id:</strong> {{ wine.id }}</p>
-                    <p class="card-text"><strong>manufactor of wines:</strong> {{ wine.manufacturer }}</p>
-                    <p class="card-text"><strong>year of wine:</strong> {{ wine.year }}</p>
-                    <p class="card-text"><strong>price:</strong> {{ wine.price }}</p>
-                    <p class="card-text"><strong>rating:</strong> {{ wine.rating }}</p>
+            <div v-if="errormsgGetId" class="mt-3 text-red-600 bg-red-50 p-3 rounded">{{ errormsgGetId }}</div>
+            <div v-if="wine" class="mt-4 p-4 bg-rose-50 rounded">
+                <h4 class="text-xl font-['Cinzel'] text-rose-800 mb-3">Wine Details</h4>
+                <div class="space-y-2 text-rose-700">
+                    <p><strong>ID:</strong> {{ wine.id }}</p>
+                    <p><strong>Manufacturer:</strong> {{ wine.manufacturer }}</p>
+                    <p><strong>Vintage:</strong> {{ wine.year }}</p>
+                    <p><strong>Price:</strong> ${{ wine.price }}</p>
+                    <p><strong>Rating:</strong> {{ wine.rating }}/5</p>
                 </div>
             </div>
         </div>
 
-
-
-        
+        <!-- Sort by Rating -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-4">Sort by Rating</h3>
+            <div class="flex gap-4">
+                <input v-model="ratingR" type="number" class="border-rose-200 border rounded px-3 py-2 flex-grow focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Minimum Rating">
+                <button class="bg-rose-600 text-white px-6 py-2 rounded hover:bg-rose-700 transition-colors" v-on:click="Sort">Sort Wines</button>
+            </div>
+            <div v-if="sortedwines" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                <div v-for="wine in sortedwines" class="bg-rose-50 rounded-lg p-6 border-t-4 border-rose-200">
+                    <div class="space-y-2 text-rose-700">
+                        <p><strong>ID:</strong> {{ wine.id }}</p>
+                        <p><strong>Manufacturer:</strong> {{ wine.manufacturer }}</p>
+                        <p><strong>Vintage:</strong> {{ wine.year }}</p>
+                        <p><strong>Price:</strong> ${{ wine.price }}</p>
+                        <p><strong>Rating:</strong> {{ wine.rating }}/5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    
-    <!-- Import App -->
-    <script type="module" src="main.js"></script> 
-
-    
-    <!-- Bootstrap JS Bundle (includes Popper.js for tooltips and popovers) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts -->
+    <script type="module" src="main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 </html>
-
-
