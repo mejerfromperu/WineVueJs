@@ -2,3 +2,14 @@ h1 {
     font-size: 30px;
     color: red;
 }
+
+body {
+    background-image: url('images/wallpaperflare.com_wallpaper.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-blend-mode: overlay;
+    min-height: 100vh;
+    font-family: 'Lora', serif;
+    background: linear-gradient(to bottom right, rgba(240, 128, 128, 0.2), rgba(128, 0, 128, 0.2));
+}
