@@ -5,108 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wine Cellar Collection</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="Style.css">
 </head>
-<body class="bg-gradient-to-br from-rose-50 to-purple-50 min-h-screen font-['Lora'] bg-fixed bg-cover" style="background-image: url('images/wallpaperflare.com_wallpaper.jpg'); background-blend-mode: overlay;">
-    <div id="app" class="container mx-auto px-4 py-8">
+<body class="font-['Lora'] min-h-screen bg-fixed bg-cover text-gray-800" style="background-image: url('images/wallpaperflare.com_wallpaper.jpg'); background-blend-mode: overlay; background-color: rgba(0, 0, 0, 0.4);">
+    <!-- Overlay for better contrast -->
+    <div class="absolute inset-0 bg-black/20 pointer-events-none"></div>
+
+    <div id="app" class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <!-- Header -->
-        <header class="mb-8 text-center">
-            <h1 class="text-4xl font-['Cinzel'] text-rose-900 mb-2">Wine Cellar Collection</h1>
-            <p class="text-rose-700">Discover our exquisite wine selection</p>
+        <header class="mb-16 text-center text-white">
+            <h1 class="text-5xl md:text-6xl font-['Cinzel'] tracking-wide drop-shadow-lg">Wine Cellar Collection</h1>
+            <p class="mt-3 text-lg md:text-xl italic font-light drop-shadow-lg">Curated elegance in every bottle</p>
+            <div class="mt-6 border-t border-rose-400 w-32 mx-auto opacity-75"></div>
         </header>
 
+        <!-- Navigation (Optional Professional Touch) -->
+        <nav class="flex justify-center gap-8 mb-12 text-white text-sm uppercase tracking-wider">
+            <a href="#wines" class="hover:text-rose-300 transition-colors">Wines</a>
+            <a href="#add" class="hover:text-rose-300 transition-colors">Add Wine</a>
+            <a href="#manage" class="hover:text-rose-300 transition-colors">Manage</a>
+        </nav>
+
         <!-- Wine List -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            <div v-for="wine in wines" class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border-t-4 border-rose-200">
-                <h4 class="text-xl font-['Cinzel'] text-rose-800 mb-3">Wine #{{ wine.id }}</h4>
-                <div class="space-y-2 text-rose-700">
-                    <p><strong>Manufacturer:</strong> {{ wine.manufacturer }}</p>
-                    <p><strong>Vintage:</strong> {{ wine.year }}</p>
-                    <p><strong>Price:</strong> ${{ wine.price }}</p>
-                    <p><strong>Rating:</strong> {{ wine.rating }}/5</p>
+        <section id="wines" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
+            <div v-for="wine in wines" class="bg-white/95 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-rose-700 backdrop-blur-md">
+                <h4 class="text-xl font-['Cinzel'] text-rose-900 mb-4 tracking-tight">{{ wine.manufacturer }} <span class="text-gray-600">({{ wine.year }})</span></h4>
+                <div class="space-y-3 text-gray-700 text-sm">
+                    <p><span class="font-semibold">Price:</span> ${{ wine.price }}</p>
+                    <p><span class="font-semibold">Rating:</span> {{ wine.rating }}/5</p>
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- Add Wine Form -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-4">Add New Wine</h3>
-            <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <input v-model="newManufacturer" type="text" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Manufacturer">
-                <input v-model="newYear" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Year">
-                <input v-model="newPrice" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Price">
-                <input v-model="newRating" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Rating (1-5)">
+        <section id="add" class="bg-white/95 rounded-xl shadow-xl p-8 mb-16 backdrop-blur-md">
+            <h3 class="text-2xl md:text-3xl font-['Cinzel'] text-rose-900 mb-6 tracking-tight">Add a New Vintage</h3>
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <input v-model="newManufactor" type="text" class="border-rose-200 border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="Manufacturer">
+                <input v-model="newYear" type="number" class="border-rose-200 border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="Vintage Year">
+                <input v-model="newPrice" type="number" class="border-rose-200 border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="Price ($)">
+                <input v-model="newRating" type="number" class="border-rose-200 border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="Rating (1-5)">
             </div>
-            <button v-on:click="AddWine" class="mt-4 bg-rose-600 text-white px-6 py-2 rounded hover:bg-rose-700 transition-colors">Add Wine</button>
-            <div v-if="errormsg" class="mt-3 text-red-600 bg-red-50 p-3 rounded">{{ errormsg }}</div>
-        </div>
+            <button v-on:click="AddWine" class="mt-6 bg-rose-800 text-white px-8 py-2.5 rounded-lg hover:bg-rose-900 transition-all duration-200 shadow-md hover:shadow-lg">Add to Collection</button>
+            <div v-if="errormsg" class="mt-4 text-red-700 bg-red-100/90 p-4 rounded-lg">{{ errormsg }}</div>
+        </section>
 
-        <!-- Delete Wine -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-4">Remove Wine</h3>
-            <div class="flex gap-4">
-                <input v-model.number="IdDelete" type="number" class="border-rose-200 border rounded px-3 py-2 flex-grow focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Wine ID">
-                <button v-on:click="deleteWine" class="bg-rose-600 text-white px-6 py-2 rounded hover:bg-rose-700 transition-colors">Delete</button>
+        <!-- Manage Wines (Delete & Update) -->
+        <section id="manage" class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16">
+            <!-- Delete Wine -->
+            <div class="bg-white/95 rounded-xl shadow-xl p-8 backdrop-blur-md">
+                <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-6 tracking-tight">Remove a Vintage</h3>
+                <div class="flex gap-4 items-center">
+                    <input v-model.number="IdDelete" type="number" class="border-rose-200 border rounded-lg px-4 py-2.5 flex-grow focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="Wine ID">
+                    <button v-on:click="deleteWine" class="bg-rose-800 text-white px-6 py-2.5 rounded-lg hover:bg-rose-900 transition-all duration-200 shadow-md hover:shadow-lg">Remove</button>
+                </div>
+                <div v-if="errormsgDelete" class="mt-4 text-red-700 bg-red-100/90 p-4 rounded-lg">{{ errormsgDelete }}</div>
             </div>
-            <div v-if="errormsgDelete" class="mt-3 text-red-600 bg-red-50 p-3 rounded">{{ errormsgDelete }}</div>
-        </div>
-
-        <!-- Update Wine -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-4">Update Wine</h3>
-            <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-                <input v-model="idtoupdate" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Wine ID">
-                <input v-model="updateManufacturer" type="text" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Manufacturer">
-                <input v-model="updateYear" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Year">
-                <input v-model="updatePrice" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Price">
-                <input v-model="updateRating" type="number" class="border-rose-200 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Rating">
+ 
+            <!-- Update Wine -->
+            <div class="bg-white/95 rounded-xl shadow-xl p-8 backdrop-blur-md">
+                <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-6 tracking-tight">Update a Vintage</h3>
+                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+                    <input v-model="idtoupdate" type="number" class="border-rose-200 border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="ID">
+                    <input v-model="updateManufactor" type="text" class="border-rose-200 border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="Manufacturer">
+                    <input v-model="updateYear" type="number" class="border-rose-200 border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="Year">
+                    <input v-model="updatePrice" type="number" class="border-rose-200 border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="Price">
+                    <input v-model="updateRating" type="number" class="border-rose-200 border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="Rating">
+                </div>
+                <button v-on:click="UpdateWine" class="mt-6 bg-rose-800 text-white px-6 py-2.5 rounded-lg hover:bg-rose-900 transition-all duration-200 shadow-md hover:shadow-lg">Update</button>
+                <div v-if="errormsgUpdateWine" class="mt-4 text-red-700 bg-red-100/90 p-4 rounded-lg">{{ errormsgUpdateWine }}</div>
             </div>
-            <button v-on:click="UpdateWine" class="mt-4 bg-rose-600 text-white px-6 py-2 rounded hover:bg-rose-700 transition-colors">Update Wine</button>
-            <div v-if="errormsgUpdateWine" class="mt-3 text-red-600 bg-red-50 p-3 rounded">{{ errormsgUpdateWine }}</div>
-        </div>
+        </section>
 
         <!-- Get Wine by ID -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-4">Find Wine</h3>
-            <div class="flex gap-4">
-                <input v-model.number="getId" type="number" class="border-rose-200 border rounded px-3 py-2 flex-grow focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Enter Wine ID">
-                <button v-on:click="GetById" class="bg-rose-600 text-white px-6 py-2 rounded hover:bg-rose-700 transition-colors">Search</button>
+        <section class="bg-white/95 rounded-xl shadow-xl p-8 mb-16 backdrop-blur-md">
+            <h3 class="text-2xl md:text-3xl font-['Cinzel'] text-rose-900 mb-6 tracking-tight">Find a Vintage</h3>
+            <div class="flex gap-4 items-center">
+                <input v-model.number="getId" type="number" class="border-rose-200 border rounded-lg px-4 py-2.5 flex-grow focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="Enter Wine ID">
+                <button v-on:click="GetById" class="bg-rose-800 text-white px-6 py-2.5 rounded-lg hover:bg-rose-900 transition-all duration-200 shadow-md hover:shadow-lg">Search</button>
             </div>
-            <div v-if="errormsgGetId" class="mt-3 text-red-600 bg-red-50 p-3 rounded">{{ errormsgGetId }}</div>
-            <div v-if="wine" class="mt-4 p-4 bg-rose-50 rounded">
-                <h4 class="text-xl font-['Cinzel'] text-rose-800 mb-3">Wine Details</h4>
-                <div class="space-y-2 text-rose-700">
-                    <p><strong>ID:</strong> {{ wine.id }}</p>
-                    <p><strong>Manufacturer:</strong> {{ wine.manufacturer }}</p>
-                    <p><strong>Vintage:</strong> {{ wine.year }}</p>
-                    <p><strong>Price:</strong> ${{ wine.price }}</p>
-                    <p><strong>Rating:</strong> {{ wine.rating }}/5</p>
+            <div v-if="errormsgGetId" class="mt-4 text-red-700 bg-red-100/90 p-4 rounded-lg">{{ errormsgGetId }}</div>
+            <div v-if="wine" class="mt-6 p-6 bg-rose-50/95 rounded-lg border-l-4 border-rose-700">
+                <h4 class="text-xl font-['Cinzel'] text-rose-900 mb-4">Vintage Details</h4>
+                <div class="space-y-3 text-gray-700 text-sm">
+                    <p><span class="font-semibold">ID:</span> {{ wine.id }}</p>
+                    <p><span class="font-semibold">Manufacturer:</span> {{ wine.manufacturer }}</p>
+                    <p><span class="font-semibold">Vintage:</span> {{ wine.year }}</p>
+                    <p><span class="font-semibold">Price:</span> ${{ wine.price }}</p>
+                    <p><span class="font-semibold">Rating:</span> {{ wine.rating }}/5</p>
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- Sort by Rating -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-2xl font-['Cinzel'] text-rose-900 mb-4">Sort by Rating</h3>
-            <div class="flex gap-4">
-                <input v-model="ratingR" type="number" class="border-rose-200 border rounded px-3 py-2 flex-grow focus:outline-none focus:ring-2 focus:ring-rose-300" placeholder="Minimum Rating">
-                <button class="bg-rose-600 text-white px-6 py-2 rounded hover:bg-rose-700 transition-colors" v-on:click="Sort">Sort Wines</button>
+        <section class="bg-white/95 rounded-xl shadow-xl p-8 backdrop-blur-md">
+            <h3 class="text-2xl md:text-3xl font-['Cinzel'] text-rose-900 mb-6 tracking-tight">Sort by Rating</h3>
+            <div class="flex gap-4 items-center">
+                <input v-model="ratingR" type="number" class="border-rose-200 border rounded-lg px-4 py-2.5 flex-grow focus:outline-none focus:ring-2 focus:ring-rose-600 bg-white/80 placeholder-gray-400" placeholder="Minimum Rating (1-5)">
+                <button class="bg-rose-800 text-white px-6 py-2.5 rounded-lg hover:bg-rose-900 transition-all duration-200 shadow-md hover:shadow-lg" v-on:click="Sort">Sort Collection</button>
             </div>
-            <div v-if="sortedwines" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                <div v-for="wine in sortedwines" class="bg-rose-50 rounded-lg p-6 border-t-4 border-rose-200">
-                    <div class="space-y-2 text-rose-700">
-                        <p><strong>ID:</strong> {{ wine.id }}</p>
-                        <p><strong>Manufacturer:</strong> {{ wine.manufacturer }}</p>
-                        <p><strong>Vintage:</strong> {{ wine.year }}</p>
-                        <p><strong>Price:</strong> ${{ wine.price }}</p>
-                        <p><strong>Rating:</strong> {{ wine.rating }}/5</p>
+            <div v-if="sortedwines" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                <div v-for="wine in sortedwines" class="bg-rose-50/95 rounded-lg p-6 border-t-4 border-rose-700">
+                    <div class="space-y-3 text-gray-700 text-sm">
+                        <p><span class="font-semibold">ID:</span> {{ wine.id }}</p>
+                        <p><span class="font-semibold">Manufacturer:</span> {{ wine.manufacturer }}</p>
+                        <p><span class="font-semibold">Vintage:</span> {{ wine.year }}</p>
+                        <p><span class="font-semibold">Price:</span> ${{ wine.price }}</p>
+                        <p><span class="font-semibold">Rating:</span> {{ wine.rating }}/5</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
     <!-- Scripts -->
